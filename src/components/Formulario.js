@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import {useState} from 'react';
 
 const Campo = styled.div`
     display: flex;
@@ -40,11 +41,33 @@ const Boton = styled.button`
 `;
 
 const Formulario = () => {
+
+    const [datos, guardarDatos] = useState({
+      marca: '',
+      year: '',
+      plan: ''  
+    });
+
+    // extraer los valores del state
+    const {marca, year, plan} = datos;
+
+    // leer los datos del formulario
+    const obtenerInformacion = e => {
+        guardarDatos({
+            ...datos,
+            [e.target.name]:e.target.value
+        })
+    }
+
     return (
         <form>
             <Campo> 
                 <Label>Marca</Label>
-                <Select>
+                <Select
+                    name="marca"
+                    value={marca}
+                    onChange={obtenerInformacion}
+                >
                     <option value="">Seleccione una marca</option>
                     <option value="americano">Americano</option>
                     <option value="europeo">Europeo</option>
@@ -53,7 +76,11 @@ const Formulario = () => {
             </Campo>
             <Campo> 
                 <Label>Año</Label>
-                <Select>
+                <Select
+                    name="year"
+                    value={year}
+                    onChange={obtenerInformacion}
+                >
                     <option value="">Seleccione un año</option>
                     <option value="2021">2021</option>
                     <option value="2020">2020</option>
@@ -73,11 +100,15 @@ const Formulario = () => {
                     type="radio"
                     name="plan"
                     value="basico"
+                    checked={plan === "basico"}
+                    onChange={obtenerInformacion}
                 /> Basico
                 <InputRadio 
                     type="radio"
                     name="plan"
                     value="completo"
+                    checked={plan === "completo"}
+                    onChange={obtenerInformacion}
                 /> Completo
             </Campo>
             <Boton type="button">Cotizar</Boton>
