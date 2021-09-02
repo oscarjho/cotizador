@@ -48,8 +48,12 @@ const Formulario = () => {
       plan: ''  
     });
 
+    // State para el error
+    const [error, guardarError] = useState(false);
+
     // extraer los valores del state
     const {marca, year, plan} = datos;
+    
 
     // leer los datos del formulario
     const obtenerInformacion = e => {
@@ -59,8 +63,30 @@ const Formulario = () => {
         })
     }
 
+    // Cuando el usuario presiona submit
+    const cotizarSeguro = e => {
+        e.preventDefault();
+        if(marca.trim()==='' || year.trim()==='' || plan.trim()==='') {
+            guardarError(true);
+            return;
+        }
+        guardarError(false);
+    }
+
+    const Error = styled.div`
+        background-color: red;
+        color: white;
+        padding: 1rem;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 2rem;
+    `;
+
     return (
-        <form>
+        <form
+            onSubmit={cotizarSeguro}
+        >
+            {error ? <Error> Todos los campos son obligatorios </Error>: null}
             <Campo> 
                 <Label>Marca</Label>
                 <Select
@@ -111,7 +137,7 @@ const Formulario = () => {
                     onChange={obtenerInformacion}
                 /> Completo
             </Campo>
-            <Boton type="button">Cotizar</Boton>
+            <Boton type="submit">Cotizar</Boton>
         </form>
     );
 }
