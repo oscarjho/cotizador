@@ -42,7 +42,7 @@ const Boton = styled.button`
     margin-top: 2rem;
 `;
 
-const Formulario = () => {
+const Formulario = ({guardarResumen}) => {
 
     const [datos, guardarDatos] = useState({
       marca: '',
@@ -86,6 +86,12 @@ const Formulario = () => {
         const incrementoPlan = obtenerPlan(plan);
         resultado = parseFloat ( incrementoPlan * resultado).toFixed(2);
         console.log(resultado); 
+
+        //Enviar el resultado al componente principal
+        guardarResumen({
+            cotizacion: resultado,
+            datos
+        });
     }
 
     const Error = styled.div`
