@@ -3,6 +3,8 @@ import Formulario from './components/Formulario';
 import Header from './components/Header';
 import Resumen from './components/Resumen';
 import Resultado from './components/Resultado';
+import Spinner from './components/Spinner';
+
 import styled from '@emotion/styled';
 
 const Contenedor = styled.div`
@@ -26,6 +28,9 @@ function App() {
     }
   });
 
+  //State para el spinner
+  const [ loading, setLoading ] = useState(false);
+
   //Extraer los datos
   const {cotizacion, datos} = resumen;
 
@@ -35,9 +40,10 @@ function App() {
         titulo='Cotizador de Seguros'
       />
       <ContenedorFormulario>
-        <Formulario guardarResumen={guardarResumen} />
+        <Formulario guardarResumen={guardarResumen} setLoading={setLoading} />
+        { loading ? <Spinner /> : null }
         <Resumen datos={datos} />
-        <Resultado cotizacion={cotizacion} />
+        { !loading ? <Resultado cotizacion={cotizacion} /> : null }
       </ContenedorFormulario>
     </Contenedor> 
   );

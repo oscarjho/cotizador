@@ -42,7 +42,7 @@ const Boton = styled.button`
     margin-top: 2rem;
 `;
 
-const Formulario = ({guardarResumen}) => {
+const Formulario = ({guardarResumen, setLoading}) => {
 
     const [datos, guardarDatos] = useState({
       marca: '',
@@ -85,13 +85,19 @@ const Formulario = ({guardarResumen}) => {
         // Basico aumenta 20% y completo 50%
         const incrementoPlan = obtenerPlan(plan);
         resultado = parseFloat ( incrementoPlan * resultado).toFixed(2);
-        console.log(resultado); 
-
-        //Enviar el resultado al componente principal
-        guardarResumen({
-            cotizacion: resultado,
-            datos
-        });
+        
+        //Mostrando el spinner
+        setLoading(true);
+        // Despues de 3 segundos hace esto
+        setTimeout( () => {
+            setLoading(false);
+            //Enviar el resultado al componente principal
+            guardarResumen({
+                cotizacion: resultado,
+                datos
+            });
+        }, 3000);
+        
     }
 
     const Error = styled.div`
