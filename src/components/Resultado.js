@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 const Mensaje = styled.p`
     background-color: rgb(127, 224, 237);
@@ -22,12 +23,23 @@ const TextoCotizacion = styled.p`
 
 const Resultado = ({cotizacion}) => {
     return (
-            (cotizacion === 0) ? 
-    ( <Mensaje>Elige marca, año y tipo de seguro</Mensaje> ) 
-    : 
-    ( <ResultadoCotizacion>
-        <TextoCotizacion> {cotizacion} </TextoCotizacion>
-        </ResultadoCotizacion> )        
+        (cotizacion === 0) ? 
+            <Mensaje>Elige marca, año y tipo de seguro</Mensaje>  
+        : 
+            <ResultadoCotizacion>
+                <TransitionGroup 
+                    component="p"
+                    className="resultado"
+                    >
+                    <CSSTransition
+                        className="resultado"
+                        key={cotizacion}
+                        timeout={{ enter: 500, exit: 1 }}
+                    >
+                        <TextoCotizacion> {cotizacion} </TextoCotizacion>
+                    </CSSTransition>
+                </TransitionGroup>
+            </ResultadoCotizacion>       
     );
 }
 
